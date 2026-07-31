@@ -71,3 +71,12 @@ The installed version is **`next@16.2.12`** with **`react@19.2.4`** — both new
 - **tsconfig path alias**: `@/*` maps to project root `./*`, so new layers don't need config changes
 - **Single page**: `app/page.tsx` (home only); `app/loading.tsx`, `app/error.tsx`, `app/not-found.tsx` follow Next.js conventions
 - **CSS in** `app/globals.css` with Tailwind v4 + CSS variables + dark mode support
+
+## 코드 리뷰 자동화
+
+코드 구현(파일 생성/수정)을 완료한 직후에는 `code-reviewer` 서브에이전트를 호출하여 리뷰를 받습니다. 이 서브에이전트는 가독성·성능·안정성·프로젝트 컨벤션 4대 기준으로 변경사항을 심층 분석합니다.
+
+- **위치**: `.claude/agents/code-reviewer.md`
+- **호출 방식**: 구현 완료 후 메인 에이전트가 자동으로 서브에이전트를 호출 (사용자의 명시적 요청 불필요)
+- **권한**: Read, Grep, Glob (읽기 전용)
+- **모델**: sonnet
