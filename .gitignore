@@ -27,6 +27,11 @@
 # editor
 .vscode/
 
+# claude code
+.claude/settings.local.json
+.playwright-mcp/
+devserver.log
+
 # debug
 npm-debug.log*
 yarn-debug.log*
