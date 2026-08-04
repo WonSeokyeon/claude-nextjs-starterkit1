@@ -29,6 +29,7 @@
 
 # claude code
 .claude/settings.local.json
+.claude/plans/
 .playwright-mcp/
 devserver.log
 

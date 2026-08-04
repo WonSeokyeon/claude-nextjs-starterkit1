@@ -4,6 +4,15 @@
 # stdin으로 들어온 JSON 이벤트를 파싱하여 Slack Webhook으로 메시지 전송
 # 실패해도 Always exit 0 으로 Claude Code 동작을 막지 않음
 
+# .env 파일이 있으면 환경변수로 로드 (SLACK_WEBHOOK_URL 등)
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+env_file="$script_dir/../../.env"
+if [ -f "$env_file" ]; then
+  set -a
+  source "$env_file"
+  set +a
+fi
+
 # Webhook URL이 비어있으면 조용히 종료
 if [ -z "$SLACK_WEBHOOK_URL" ]; then
   exit 0
