@@ -6,12 +6,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Commands
 
+Next.js 16 uses **Turbopack** by default for dev and build (faster than Webpack). Run commands directly with `npm`; `next lint` was removed in favor of bare `eslint`.
+
 ### Core Development
-- **`npm run dev`** — Start Turbopack-based development server on `http://localhost:3000`. Next.js 16 uses Turbopack by default for both dev and build.
-- **`npm run build`** — Build for production (Turbopack enabled by default).
+- **`npm run dev`** — Start dev server on `http://localhost:3000`.
+- **`npm run build`** — Build for production.
 - **`npm run start`** — Start production server.
-- **`npm run lint`** — Run ESLint directly (not `next lint`, which was removed in Next.js 16).
-- **`npx tsc --noEmit`** — Type-check without emitting (no npm script provided, but useful for CI/pre-commit).
+- **`npm run lint`** — Run ESLint.
+- **`npx tsc --noEmit`** — Type-check without emitting (useful for CI/pre-commit).
 
 ### Testing
 **No test framework is installed** (no Jest, Vitest, or Playwright test). If you need tests, you'll need to add a framework first.
@@ -56,6 +58,16 @@ Components live at `components/<layer>/<name>.tsx` — exactly **2 levels deep**
 | Toast notifications | sonner | Official shadcn replacement for deprecated toast; lightweight & accessible |
 | Loading/error boundaries | Next.js App Router built-in (`loading.tsx`, `error.tsx`, `not-found.tsx`) | Framework convention; visual layer uses `Skeleton`, `Alert`, `EmptyState` patterns |
 
+## MCP Servers
+
+This project uses three MCP servers for developer productivity, configured in `.mcp.json`:
+
+| Server | Purpose |
+|--------|---------|
+| `@playwright/mcp` | Browser automation (e.g., screenshot, filling forms). **Not a test framework** — no Playwright test runner is installed. |
+| `context7` | Fetch latest docs for libraries/frameworks (React, Next.js, Tailwind, Zod, etc.). Use when updating or building against unfamiliar APIs. |
+| `sequential-thinking` | Multi-step reasoning for complex problems; helps structure approach before coding. |
+
 ## Next.js 16 Notes
 
 The installed version is **`next@16.2.12`** with **`react@19.2.4`** — both newer than typical training data. Always consult `node_modules/next/dist/docs/` (bundled with the CLI) before writing APIs that might differ from your knowledge base (see `@AGENTS.md`).
@@ -69,14 +81,16 @@ The installed version is **`next@16.2.12`** with **`react@19.2.4`** — both new
 
 - **No `src/` folder** — `app/`, `components/`, `lib/` sit directly in the project root
 - **tsconfig path alias**: `@/*` maps to project root `./*`, so new layers don't need config changes
-- **Single page**: `app/page.tsx` (home only); `app/loading.tsx`, `app/error.tsx`, `app/not-found.tsx` follow Next.js conventions
+- **Routes**: Single route only — `app/page.tsx` is the only page; `app/loading.tsx`, `app/error.tsx`, `app/not-found.tsx` are convention files (not additional routes).
+- **Environment**: `.env` and `.env.example` files exist at project root for configuration.
 - **CSS in** `app/globals.css` with Tailwind v4 + CSS variables + dark mode support
 
-## 코드 리뷰 자동화
+## 코드 리뷰 및 커밋 자동화
 
-코드 구현(파일 생성/수정)을 완료한 직후에는 `code-reviewer` 서브에이전트를 호출하여 리뷰를 받습니다. 이 서브에이전트는 가독성·성능·안정성·프로젝트 컨벤션 4대 기준으로 변경사항을 심층 분석합니다.
-
+**코드 리뷰**: 구현 완료 후 `code-reviewer` 서브에이전트를 호출하여 가독성·성능·안정성·프로젝트 컨벤션 기준으로 심층 분석.
 - **위치**: `.claude/agents/code-reviewer.md`
-- **호출 방식**: 구현 완료 후 메인 에이전트가 자동으로 서브에이전트를 호출 (사용자의 명시적 요청 불필요)
+- **호출 방식**: 메인 에이전트가 자동으로 호출 (사용자 명시 불필요)
 - **권한**: Read, Grep, Glob (읽기 전용)
-- **모델**: sonnet
+
+**커밋**: `/git:commit` 커스텀 커맨드 (또는 `/commit`)를 사용하면 이모지+컨벤셔널 커밋 규칙을 따른 포맷된 커밋 메시지를 생성.
+- **위치**: `.claude/commands/git/commit.md`
