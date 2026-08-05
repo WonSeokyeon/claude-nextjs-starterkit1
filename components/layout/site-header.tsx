@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/patterns/theme-toggle"
 import { PageContainer } from "@/components/layout/page-container"
 
@@ -13,8 +14,11 @@ export function SiteHeader() {
           >
             Next.js Starter Kit
           </Link>
-          {/* 추후 서브페이지 추가 시 네비게이션 링크를 넣을 자리 */}
-          <nav className="flex items-center gap-4" />
+          <nav className="flex items-center gap-4">
+            <Button size="sm" asChild>
+              <Link href="/login">로그인하기</Link>
+            </Button>
+          </nav>
           <ThemeToggle />
         </div>
       </PageContainer>
