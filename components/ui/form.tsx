@@ -28,21 +28,18 @@ const FormFieldContext = React.createContext<FormFieldContextValue>({
   name: "" as FieldPath<FieldValues>,
 })
 
-const FormField = <
-  TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->({
+const FormField = ({
   ...props
-}: UseControllerProps<TFieldValues> & {
-  name: TName
+}: UseControllerProps<FieldValues> & {
   render: (props: {
-    field: ControllerRenderProps<TFieldValues, TName>
+    field: ControllerRenderProps<FieldValues, FieldPath<FieldValues>>
     fieldState: ControllerFieldState
-    formState: UseFormStateReturn<TFieldValues>
+    formState: UseFormStateReturn<FieldValues>
   }) => React.ReactElement
 }) => (
-  <FormFieldContext.Provider value={{ name: props.name }}>
-    <Controller {...props} />
+  <FormFieldContext.Provider value={{ name: props.name as FieldPath<FieldValues> }}>
+    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+    <Controller {...(props as any)} />
   </FormFieldContext.Provider>
 )
 FormField.displayName = "FormField"

@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm, ControllerFieldState, ControllerRenderProps, UseFormStateReturn } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { toast } from "sonner"
 
@@ -70,7 +70,7 @@ export function LoginForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader className="space-y-2">
-          <CardTitle className="text-2xl">계정에 로그인</CardTitle>
+          <CardTitle className="text-2xl">로그인</CardTitle>
           <CardDescription>
             이메일과 비밀번호를 입력해 로그인하세요
           </CardDescription>
@@ -80,16 +80,22 @@ export function LoginForm({
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <div className="space-y-4">
                 {/* 이메일 필드 */}
-                <FormField<LoginFormValues>
-                  control={form.control}
+                <FormField
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  control={form.control as any}
                   name="email"
-                  render={({ field }: {
-                    field: ControllerRenderProps<LoginFormValues, "email">
-                    fieldState: ControllerFieldState
-                    formState: UseFormStateReturn<LoginFormValues>
-                  }) => (
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  render={({ field }: any) => (
                     <FormItem>
-                      <FormLabel>이메일</FormLabel>
+                      <div className="flex items-center justify-between">
+                        <FormLabel>이메일</FormLabel>
+                        <Link
+                          href="/find-email"
+                          className="text-sm underline-offset-4 hover:underline text-muted-foreground hover:text-foreground"
+                        >
+                          이메일을 잊으셨나요?
+                        </Link>
+                      </div>
                       <FormControl>
                         <Input
                           type="email"
@@ -104,14 +110,12 @@ export function LoginForm({
                 />
 
                 {/* 비밀번호 필드 */}
-                <FormField<LoginFormValues>
-                  control={form.control}
+                <FormField
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  control={form.control as any}
                   name="password"
-                  render={({ field }: {
-                    field: ControllerRenderProps<LoginFormValues, "password">
-                    fieldState: ControllerFieldState
-                    formState: UseFormStateReturn<LoginFormValues>
-                  }) => (
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  render={({ field }: any) => (
                     <FormItem>
                       <div className="flex items-center justify-between">
                         <FormLabel>비밀번호</FormLabel>
