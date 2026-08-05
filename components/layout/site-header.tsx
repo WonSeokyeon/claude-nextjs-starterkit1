@@ -14,12 +14,12 @@ export function SiteHeader() {
           >
             Next.js Starter Kit
           </Link>
-          <nav className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <Button size="sm" asChild>
               <Link href="/login">로그인하기</Link>
             </Button>
-          </nav>
-          <ThemeToggle />
+            <ThemeToggle />
+          </div>
         </div>
       </PageContainer>
     </header>
